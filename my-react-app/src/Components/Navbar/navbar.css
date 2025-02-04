@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'SF Pro ';
+    src: url('/src/fonts/SF-Pro.ttf') format('truetype');
+}
+
+
+.navbar
+{
+    background-color : #fff;
+    border-radius: 60px;
+
+}
+.navbar ul
+{
+    display: flex;
+    gap: 5rem;
+    justify-content: center;
+    list-style: none;
+    padding: 1rem;
+}
+
+.navbar a
+{
+    color : #000;
+    text-decoration : none;
+    font-family: 'SF Pro ' , sans-serif;
+    
+}
