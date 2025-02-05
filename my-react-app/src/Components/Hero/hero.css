@@ -13,12 +13,11 @@
     position: relative;
 }
 .hero img
-{
-    width: 98%;    
+{ 
+    width: 98%;   
     border-radius: 60px;
     justify-content: center;
-    filter: brightness(70%); /* Darkens the image */
-
+    filter: brightness(70%); /* Darkens the image */ 
 }
 .hero .text 
 {
@@ -42,7 +41,7 @@
     position: absolute;
     top: 55%;
     left: 50%;
-    background-color: #ffffff;
+    background-color: #ffffffe6;
     padding: 2rem 2rem;
     border-radius: 60px;
     text-decoration: none;
@@ -51,7 +50,7 @@
 
 }
 .hero-button a {
-    color: #08df1a;
+    color: #FCD956;
     text-decoration: none;
     font-family: 'SF Pro', sans-serif;
     font-size: 1.5rem;
