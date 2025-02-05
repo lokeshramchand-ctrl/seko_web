@@ -46,14 +46,7 @@
     display:flex;
     align-items: center;
 }
-.footer-merge
-{
-flex: 1; /* Each div takes equal space */
-margin: 10px; /* Adds space between the divs */
-padding: 20px;
-background-color: lightblue;
-text-align: center;
-}
+
 .footer-pages
 {
     display: flex;
