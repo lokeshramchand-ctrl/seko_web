@@ -6,15 +6,14 @@ const Footer = () => {
             <div class = "footer-logo">
                 <img src = 'src/assets/3.png'></img>
                 </div>
+                <div class = "footer-merge">
+
             <div class = "footer-email">
                 <h1>Request Early Access</h1>
                 <form>
                     <input type = "email" placeholder = "Email Address"></input>
-                    <button>Connect</button>
                 </form>
         </div>
-        <div class = "footer-about">
-            <div class = "footer-merge">
         <div class = "footer-pages">
             <h1>Quick Links</h1>
             <a href = "#">About Us</a>
@@ -29,7 +28,6 @@ const Footer = () => {
             <a href = "#">Twitter</a>
             <a href = "#">Instagram</a>
             <a href = "#">LinkedIn</a>
-        </div>
         </div>
         </div>
         </div>
