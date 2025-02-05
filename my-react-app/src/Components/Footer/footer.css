@@ -2,28 +2,26 @@
     font-family: 'Albert_Sans';
     src: url('/src/fonts/AlbertSans-Regular.ttf') format('truetype');
 }
-.footer-container
-{
 
+.footer-container {
     background-color: #FCD956;
     padding: 15rem 2rem;
     border-radius: 60px;
     text-decoration: none;
 }
 
-.footer-logo img
-{
+.footer-logo img {
     width: 72px;
     height: 72px;
 }
-.footer-email h1
-{
+
+.footer-email h1 {
     font-size: 1.5rem;
     color: #000;
     font-family: 'Albert_Sans', sans-serif;
 }
-.footer-email input
-{
+
+.footer-email input {
     width: 20%;
     padding: 1rem 1rem;
     border-color: #000;
@@ -32,8 +30,8 @@
     font-family: 'Albert_Sans', sans-serif;
     margin-right: 1rem;
 }
-.footer-email button
-{
+
+.footer-email button {
     background-color: #000;
     color: #fff;
     padding: 1rem 1rem;
@@ -41,14 +39,21 @@
     margin-top: 1rem;
     font-family: 'Albert_Sans', sans-serif;
 }
-.footer-about
-{
-    display:flex;
+
+.footer-about {
+    display: flex;
     align-items: center;
 }
 
-.footer-pages
-{
+.footer-merge {
+    display: flex;
+    justify-content: space-between; /* Adds space between sections */
+    gap: 2rem; /* Optional: Adds space between the columns */
+    margin-top: 2rem; /* Adds some space between email and links */
+    flex-wrap: wrap; /* Ensures responsiveness on smaller screens */
+}
+
+.footer-pages {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -56,8 +61,8 @@
     padding: 0;
     margin: 0;
 }
-.footer-connect
-{
+
+.footer-connect {
     display: flex;
     flex-direction: column;
     gap: 1rem;
