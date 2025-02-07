@@ -1,34 +1,86 @@
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 2rem;
+}
+
 .about h1 {
-    text-align: start;
     font-size: 2.5rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    text-align: start;
+    color: #333;
 }
 
 .about p {
-    top: 160%;
-    left: 50%;
-    right: 0%;
-    position: absolute;
-    color: rgb(0, 0, 0);
-    font-size: 30px;
-    text-decoration: none;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    text-align: justify;
+    max-width: 700px;
+    margin: 0rem 2rem 2rem auto;
 }
 
 .about-border {
-    background-color: #57a0cd72;
-    margin-left: 2rem;
-    height: 650px;
-    width: 600px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    background-color: rgba(87, 160, 205, 0.45); /* Subtle transparent background */
+    padding: 1rem; /* Spacing inside the container */
+    border-radius: 12px; /* Rounded corners */
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: 90%; /* Make it responsive, taking 90% of the parent's width */
+    max-width: 600px; /* Restrict maximum width for larger screens */
+    min-height: 500px; /* Ensure a minimum height for visual balance */
+    margin: -10rem 1rem 2rem 1rem; /* Center horizontally with equal left/right margin */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }
 
-.about-image img {
-    width: 512px;
-    height: 512px;
-    margin-top: 5rem;
-    margin-left: 2rem;
-    border-radius: 500px;
 
+.about-image img {
+    width: 100%;
+    max-width: 512px;
+    height: 100%;
+    max-height: 512px;
+    border-radius: 50%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about h1 {
+        font-size: 2rem;
+    }
+
+    .about p {
+        font-size: 0.9rem;
+        margin: 1rem;
+    }
+
+    .about-border {
+        width: 95%; /* Take up most of the screen on smaller devices */
+        max-width: none; /* Remove max width for smaller screens */
+        padding: 0.8rem; /* Reduce padding */
+    }
+    .about-image img {
+        max-width: 300px;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about h1 {
+        font-size: 1.8rem;
+    }
+
+    .about p {
+        font-size: 0.8rem;
+        margin: 0.5rem;
+    }
+    .about-border {
+        border-radius: 8px; /* Slightly smaller radius for small devices */
+        padding: 0.5rem; /* Smaller padding */
+    }
+
+    .about-image img {
+        max-width: 200px;
+    }
 }

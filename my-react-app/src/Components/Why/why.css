@@ -1,0 +1,19 @@
+.why {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the boxes */
+    align-items: flex-start; /* Aligns boxes at the top */
+    gap: 2rem; /* Adds spacing between the boxes */
+    padding: 2rem; /* Adds padding around the container */
+}
+
+.why-1, .why-2, .why-3 {
+    background-color: #57a0cd72;
+    height: 650px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px; /* Adds rounded corners for better visuals */
+}
