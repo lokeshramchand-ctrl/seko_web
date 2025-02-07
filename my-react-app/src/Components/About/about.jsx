@@ -16,4 +16,4 @@ const About = () => {
     );
 };
 
-export default Why;
+export default About;
