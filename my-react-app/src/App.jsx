@@ -4,6 +4,7 @@ import Hero from './Components/Hero/hero.jsx';
 import Footer from './Components/Footer/footer.jsx';
 import About from './Components/About/about.jsx';
 import Why from './Components/Why/why.jsx';
+import Mockup from './Components/Mockup/mockup.jsx'
 const App = () => {
   return (
     <div>
@@ -11,6 +12,7 @@ const App = () => {
       <Hero/>
       <About/>
       <Why/>
+      <Mockup/>
       <Footer/>
     </div>
   );
