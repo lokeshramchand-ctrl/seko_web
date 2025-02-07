@@ -10,7 +10,7 @@ const About = () => {
             <div className="about-border">
                 <div className="about-image">
                     <img src="src/assets/6.jpg" alt="About Us" />
-                </div>
+                
             </div>
         </div>
     );
