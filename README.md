@@ -1,7 +1,5 @@
 # Seko 
 
-![Seko Banner](https://via.placeholder.com/1200x400?text=Seko+App+Promotional+Website) 
-
 ## Table of Contents
 
 1. [About Seko](#about-seko)
