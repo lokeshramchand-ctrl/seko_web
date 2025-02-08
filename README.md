@@ -34,7 +34,7 @@ By empowering farmers and ensuring consumers get fresh produce at fair prices, *
 
 ## Website Features
 
-The **Seko Promotional Website** serves as the online face of the app, focusing on:
+The **Seko** serves as the online face of the app, focusing on:
 
 - Highlighting the **purpose** and **benefits** of Seko.
 - Showcasing key features with interactive visuals.
