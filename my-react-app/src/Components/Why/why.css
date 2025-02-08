@@ -7,7 +7,7 @@
 }
 
 .why-1, .why-2, .why-3 {
-    background-color: #57a0cd72;
+    background-color: #FCD956;
     height: 650px;
     width: 600px;
     display: flex;
@@ -15,5 +15,15 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    border-radius: 8px; /* Adds rounded corners for better visuals */
+    border-radius: 80px; /* Adds rounded corners for better visuals */
+}
+.why-1 h2, .why-2 h2, .why-3 h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.why-1 p, .why-2 p, .why-3 p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    text-align: center;
 }

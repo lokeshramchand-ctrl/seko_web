@@ -5,7 +5,14 @@ const About = () => {
         <div className="about">
             <h1>About Us</h1>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                At SEKO, we believe in creating a world where fresh, high-quality produce reaches your hands directly from the farmers who grow it. By eliminating middlemen, we ensure fair pricing for farmers and fresher, healthier products for you.
+
+                Our mission is simple yet impactful:
+
+                Empowering Farmers: Giving them a fair platform to showcase their hard work and earn what they truly deserve.
+                Delivering Freshness: Providing consumers with produce that is fresher, healthier, and sustainably sourced.
+                Building Trust: Fostering a transparent and direct connection between producers and consumers.
+                Through SEKO, we’re not just delivering products – we’re cultivating relationships, supporting local communities, and redefining the way you experience food.
             </p>
             <div className="about-border">
                 <div className="about-image">
