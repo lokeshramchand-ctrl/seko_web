@@ -12,6 +12,7 @@
 8. [Contributing](#contributing)
 ---
 
+
 ## About Seko
 
 **Seko App** aims to transform the agriculture industry by eliminating intermediaries in the supply chain. Farmers can list their produce, negotiate prices, and manage transactions directly with consumers and retailers, fostering transparency and efficiency.
