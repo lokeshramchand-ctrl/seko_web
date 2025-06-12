@@ -10,7 +10,6 @@
 6. [Usage](#usage)
 7. [Folder Structure](#folder-structure)
 8. [Contributing](#contributing)
-9. [License](#license)
 
 ---
 
