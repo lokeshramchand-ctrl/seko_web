@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEKO Premium Ecom Showcase</title>
+    <!-- Load Albert Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* =========================================================================
+           1. GLOBAL DESIGN CONSTANTS & VARIABLES
+           ========================================================================= */
+        :root {
+            /* Color Palette */
+            --color-accent: #FCD956;
+            --color-dark: #1f2937;
+            --color-light: #6b7280;
+            --color-soft-bg: #f7f7f7;
+            --color-white: #ffffff;
+            
+            /* Geometry */
+            --radius-lg: 30px;
+            --radius-xl: 32px; 
+            --shadow-soft: 0 10px 15px -3px rgba(230, 230, 230, 0.5), 0 4px 6px -2px rgba(230, 230, 230, 0.05);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        /* =========================================================================
+           2. BASE STYLES & UTILITIES (Albert Sans Typography)
+           ========================================================================= */
+        body {
+            font-family: 'Albert Sans', sans-serif;
+            background-color: var(--color-soft-bg);
+            min-height: 100vh;
+            color: var(--color-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 800;
+            color: var(--color-dark);
+        }
+
+        p {
+            color: var(--color-light);
+        }
+
+        .text-center { text-align: center; }
+        .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+
+        /* Icon Spin for loading states (if loading were active) */
+        .icon-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+
+        /* =========================================================================
+           3. HEADER/NAVIGATION STYLES (Aesthetic Pill Shape) - UPDATED
+           ========================================================================= */
+        .header-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: var(--color-white);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        .header-layout {
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* New Logo Style: Text "SEKO" in bold font */
+        .brand-logo {
+            font-size: 1.5rem; /* Slightly larger than before */
+            font-weight: 900; /* Extra bold */
+            color: var(--color-dark);
+            letter-spacing: -0.02em; /* Tight letter spacing for premium look */
+            /* Removed icon logic from here, now just text */
+        }
+        
+        /* Desktop Navigation Layout Container */
+        .nav-desktop-wrapper {
+            display: none;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-desktop-wrapper { display: flex; }
+            .nav-desktop { display: flex; align-items: center; }
+            .nav-pill-wrapper {
+                display: flex;
+                gap: 0.5rem;
+                padding: 0.5rem;
+                background-color: var(--color-soft-bg);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-inner);
+            }
+            /* Push logo to center by making desktop nav span full width */
+            .header-layout { justify-content: center; position: relative; }
+            .brand-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+            
+            /* Positioning the split navigation links */
+            #nav-left-links { position: absolute; left: 1.5rem; }
+            #nav-right-links { position: absolute; right: 1.5rem; }
+
+            .nav-mobile-button-wrapper { display: none; }
+        }
+        
+        .nav-item {
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            border: none;
+            background-color: transparent;
+            color: var(--color-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-item:hover { color: var(--color-dark); }
+        .nav-item.active {
+            background-color: var(--color-white);
+            box-shadow: var(--shadow-soft);
+            color: var(--color-dark);
+            font-weight: 700;
+        }
+
+        /* Mobile Nav */
+        .nav-mobile-button-wrapper { display: block; }
+        .nav-mobile-toggle {
+            padding: 0.5rem; border-radius: 0.5rem; background-color: #f3f4f6; color: var(--color-dark); border: none; cursor: pointer;
+        }
+        .nav-mobile-drawer {
+            position: absolute; width: 100%; background-color: var(--color-white); transition: max-height 0.33s, opacity 0.33s;
+            overflow: hidden; max-height: 0; opacity: 0;
+        }
+        .nav-mobile-drawer.open {
+            max-height: 24rem; 
+            opacity: 1;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .nav-mobile-list {
+            display: flex; flex-direction: column; gap: 0.25rem; padding-left: 1.5rem; padding-right: 1.5rem;
+        }
+        .nav-mobile-item {
+            width: 100%; text-align: left; padding: 0.5rem 0.75rem; border-radius: 1.5rem; font-size: 1rem;
+            font-weight: 500; transition: all 0.2s; border: none; background: transparent; color: var(--color-light);
+        }
+        .nav-mobile-item:hover { background-color: #f9fafb; color: var(--color-dark); }
+        .nav-mobile-item.active {
+            color: var(--color-dark); font-weight: 700; background-color: #f9fafb; border-left: 4px solid var(--color-accent);
+        }
+
+        /* =========================================================================
+           4. HERO SECTION STYLES
+           ========================================================================= */
+        .hero-section {
+            padding-top: 6rem; padding-bottom: 8rem; overflow: hidden; background-color: var(--color-white);
+        }
+        .hero-layout {
+            display: grid; gap: 3rem; align-items: center;
+        }
+        @media (min-width: 768px) {
+            .hero-layout { grid-template-columns: repeat(2, 1fr); }
+            .hero-text-content { order: 1; }
+            .hero-mockup-container { order: 2; }
+        }
+
+        .hero-headline { font-size: 3rem; margin-bottom: 1.5rem; line-height: 1.1; }
+        @media (min-width: 768px) { .hero-headline { font-size: 4.5rem; } }
+
+        .hero-subheading { font-size: 1.125rem; margin-bottom: 2.5rem; max-width: 32rem; }
+        @media (min-width: 768px) { .hero-subheading { font-size: 1.25rem; } }
+
+        .hero-cta-button {
+            padding: 0.75rem 2rem; font-size: 1.125rem; font-weight: 700; border-radius: var(--radius-lg); border: none;
+            cursor: pointer; box-shadow: var(--shadow-soft); transition: all 0.3s; display: inline-flex; align-items: center;
+            color: var(--color-dark);
+        }
+        .hero-cta-button:hover { transform: scale(1.02); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+        .icon-inline { margin-left: 0.5rem; }
+
+        /* =========================================================================
+           5. AESTHETIC CARD GRID STYLES
+           ========================================================================= */
+        .aesthetic-grid-section { padding: 4rem 0; background-color: var(--color-white); }
+        .aesthetic-grid-title { font-size: 1.875rem; margin-bottom: 3rem; text-align: center; }
+        .aesthetic-grid-layout { display: grid; gap: 2rem; }
+        @media (min-width: 768px) { .aesthetic-grid-layout { grid-template-columns: repeat(3, 1fr); } }
+
+        .aesthetic-card {
+            padding: 2rem; background-color: var(--color-soft-bg); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft);
+            text-align: center; transition: all 0.5s; cursor: default;
+        }
+        .aesthetic-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(200, 200, 200, 0.5), 0 10px 10px -5px rgba(200, 200, 200, 0.04);
+            transform: scale(1.03);
+        }
+        .aesthetic-card-icon-wrapper {
+            padding: 1rem; margin: 0 auto 1rem auto; width: fit-content; border-radius: var(--radius-lg);
+            background-color: var(--color-accent);
+        }
+        .aesthetic-card-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .aesthetic-card-description { font-size: 0.875rem; }
+
+        /* =========================================================================
+           6. DESIGN SYSTEM SHOWCASE STYLES
+           ========================================================================= */
+        .design-system-showcase-section { padding: 4rem 0; background-color: var(--color-soft-bg); }
+        .design-system-card {
+            background-color: var(--color-white); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft);
+            padding: 2rem; display: flex; flex-direction: column; gap: 3rem;
+        }
+        @media (min-width: 768px) {
+            .design-system-card { padding: 4rem; flex-direction: row; justify-content: space-between; }
+            .design-system-typography-section { flex-basis: 45%; }
+            .design-system-colors-section { flex-basis: 45%; }
+        }
+
+        .design-system-title {
+            font-size: 1rem; font-weight: 800; color: var(--color-light); letter-spacing: 0.1em; margin-bottom: 1.5rem;
+        }
+        .typography-preview { display: flex; flex-direction: column; gap: 1.5rem; }
+        @media (min-width: 768px) { .typography-preview { flex-direction: row; gap: 3rem; } }
+        .typography-large-aa { font-size: 5rem; font-weight: 800; line-height: 1; color: var(--color-dark); }
+        .typography-details { font-size: 1rem; }
+        .typography-font-name, .typography-font-weight {
+            font-weight: 700; color: var(--color-dark); margin-bottom: 0.5rem;
+        }
+        .typography-sample-text { font-size: 0.875rem; color: var(--color-dark); line-height: 1.5; }
+
+        /* Color Styles */
+        .color-palette-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (min-width: 768px) { .color-palette-wrapper { grid-template-columns: repeat(5, 1fr); } }
+        .color-swatch-detail { text-align: center; font-size: 0.75rem; }
+        .color-box {
+            width: 100%; padding-top: 150%; border-radius: 1rem; margin-bottom: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        @media (min-width: 768px) { .color-box { padding-top: 100%; } }
+        .color-hex { font-weight: 600; color: var(--color-dark); }
+        .color-name { color: var(--color-light); }
+
+        /* =========================================================================
+           7. MOCKUP SHOWCASE SECTION STYLES
+           ========================================================================= */
+        .mockup-showcase-section { padding-top: 5rem; padding-bottom: 5rem; background-color: var(--color-white); }
+
+        .showcase-banner {
+            width: 100%; height: 350px;
+            /* IMAGE PLACEMENT: Replace this URL with your actual image for the aesthetic home interior banner. */
+            background-image: url('https://placehold.co/1200x400/f0f0f0/6b7280?text=Aesthetic+Home+Interior+Showcase');
+            background-size: cover; background-position: center; border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft); margin-bottom: 3rem; overflow: hidden;
+        }
+
+        .section-title-large { font-size: 2.5rem; margin-bottom: 1rem; color: var(--color-dark); }
+        .section-description { font-size: 1rem; max-width: 600px; margin: 0 auto 3rem auto; line-height: 1.6; }
+
+        .mockup-trio-wrapper { display: flex; flex-direction: column; gap: 2rem; align-items: center; }
+        .mockup-trio-wrapper .mobile-mockup { max-width: 300px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
+        @media (min-width: 768px) {
+            .mockup-trio-wrapper { flex-direction: row; justify-content: space-between; gap: 1rem; }
+            .mockup-trio-wrapper .mobile-mockup { max-width: 300px; }
+        }
+        
+        /* Decorative Toggle Switch */
+        .section-toggle-switch { width: 60px; height: 30px; background-color: #e5e7eb; border-radius: 15px; position: relative; margin: 0 auto 1.5rem auto; cursor: pointer; }
+        .section-toggle-switch::before {
+            content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background-color: #4f46e5;
+            border-radius: 50%; transition: transform 0.3s;
+        }
+        /* Schedule/Timer/Color Mockup Specifics */
+        .schedule-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background-color: var(--color-white); border-radius: 1rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+        .schedule-item p { font-size: 0.9rem; font-weight: 500; color: var(--color-dark); }
+        .toggle-switch { width: 40px; height: 20px; background-color: #d1d5db; border-radius: 10px; position: relative; }
+        .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background-color: var(--color-white); border-radius: 50%; transition: transform 0.3s, background-color 0.3s; }
+        .toggle-switch.active { background-color: #3b82f6; }
+        .toggle-switch.active::after { transform: translateX(20px); }
+        .schedule-add-button { width: 3rem; height: 3rem; border-radius: 50%; background-color: #f3f4f6; color: var(--color-dark); font-size: 1.5rem; font-weight: 300; border: none; margin: 1rem auto 0; display: block; cursor: pointer; }
+        .timer-mockup { text-align: center; }
+        .time-picker-wrapper { display: flex; justify-content: center; font-size: 3rem; font-weight: 700; margin: 2rem 0 0.5rem 0; }
+        .time-unit { padding: 0 0.5rem; background-color: #f3f4f6; border-radius: 0.75rem; }
+        .day-selector { display: flex; justify-content: center; gap: 0.5rem; }
+        .day-chip { padding: 0.5rem 0.75rem; border-radius: 0.75rem; background-color: #e5e7eb; font-size: 0.75rem; font-weight: 600; color: var(--color-dark); cursor: pointer; }
+        .day-chip.active { background-color: var(--color-accent) !important; color: var(--color-dark) !important; box-shadow: 0 2px 4px rgba(252, 217, 86, 0.5); }
+        .color-wheel-placeholder { width: 100%; height: 150px; background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); border-radius: 1rem; margin: 1rem 0; border: 5px solid var(--color-white); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        
+        /* =========================================================================
+           8. FEATURE SECTION STYLES
+           ========================================================================= */
+        .features-section { padding-top: 2rem; padding-bottom: 4rem; background-color: var(--color-soft-bg); }
+        .feature-section {
+            padding-top: 4rem; padding-bottom: 6rem; display: flex; flex-direction: column; gap: 3rem; align-items: center;
+        }
+        @media (min-width: 768px) {
+            .feature-section { flex-direction: row; gap: 3rem; }
+            .feature-section.reverse-layout { flex-direction: row-reverse; }
+            .feature-mockup-col { flex: 0 0 40%; }
+            .feature-text-col { flex: 0 0 60%; }
+        }
+
+        .feature-title { font-size: 2.25rem; margin-bottom: 1.5rem; }
+        @media (min-width: 768px) { .feature-title { font-size: 3rem; } }
+        .feature-description { font-size: 1.125rem; margin-bottom: 2rem; line-height: 1.6; max-width: 40rem; }
+        .feature-card-grid { display: grid; gap: 1rem; }
+        @media (min-width: 640px) { .feature-card-grid { grid-template-columns: repeat(2, 1fr); } }
+        .feature-card {
+            padding: 1rem; background-color: var(--color-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+            display: flex; align-items: center; gap: 0.75rem; transition: all 0.3s;
+        }
+        .feature-card:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); transform: translateY(-2px); }
+        .icon-shrink { flex-shrink: 0; }
+        .feature-card-text { font-size: 0.875rem; font-weight: 500; color: var(--color-dark); }
+
+
+        /* =========================================================================
+           9. MOBILE MOCKUP BASE STYLES
+           ========================================================================= */
+        .mobile-mockup {
+            position: relative; width: 100%; max-width: 384px; margin-left: auto; margin-right: auto; padding: 0.5rem;
+            background-color: #e5e7eb; border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); transition: all 0.5s;
+        }
+        .mobile-mockup:hover { transform: scale(1.02); }
+        .mobile-notch {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 5rem; height: 0.5rem;
+            background-color: #1f2937; border-bottom-left-radius: 0.75rem; border-bottom-right-radius: 0.75rem; z-index: 10;
+        }
+        .mobile-screen-container {
+            width: 100%; height: 600px; background-color: var(--color-white); border-radius: var(--radius-lg);
+            overflow-y: auto; box-shadow: var(--shadow-inner);
+        }
+        .mobile-status-bar {
+            display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; font-size: 0.75rem;
+            font-weight: 500; color: #1f2937; border-bottom: 1px solid #f3f4f6; position: sticky; top: 0;
+            background-color: var(--color-white); z-index: 20;
+        }
+        .mobile-status-icons { display: flex; gap: 0.25rem; }
+        .mockup-content-area { display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem;}
+        .mockup-heading { font-size: 1.25rem; font-weight: 700; color: var(--color-dark); margin-top: 0.5rem; }
+        .mockup-card {
+            width: 100%; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; margin: 0 0.5rem 0.5rem 0.5rem;
+            background-color: var(--color-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+            transition: all 0.3s; border: none; text-align: left;
+        }
+        .mockup-card.interactive-card:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); outline: 2px solid var(--color-accent); outline-offset: 2px; }
+        .mockup-card-icon { padding: 0.5rem; border-radius: var(--radius-lg); color: var(--color-white); flex-shrink: 0; }
+        .mockup-card-title { font-size: 0.875rem; font-weight: 600; color: #1f2937; line-height: 1.2; }
+        .mockup-card-subtitle { font-size: 0.75rem; color: #6b7280; }
+        .mockup-image-placeholder {
+            height: 6rem; background-color: #f3f4f6; background-size: cover; background-position: center; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-inner); display: flex; align-items: center; justify-content: center;
+        }
+        .mockup-footer { display: flex; justify-content: space-between; padding: 0.5rem; }
+        .mockup-icon-active { color: #1f2937; }
+        .mockup-icon-inactive { color: #9ca3af; }
+        /* Feature specific styles */
+        .mockup-desc-container { padding: 0.75rem; background-color: var(--color-white); border-radius: var(--radius-lg); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; }
+        .mockup-desc-title { font-size: 0.875rem; font-weight: 600; color: var(--color-dark); margin-bottom: 0.5rem; }
+        .mockup-desc-box { padding: 0.75rem; background-color: #f9fafb; border-radius: var(--radius-lg); }
+        .mockup-desc-text { font-size: 0.75rem; color: #4b5563; line-height: 1.5; white-space: pre-wrap; height: 10rem; overflow-y: auto; }
+        .mockup-purchase-history { padding: 1rem; border-radius: var(--radius-lg); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); background-color: var(--color-white); border: 1px solid #f3f4f6; }
+        .mockup-history-list { font-size: 0.875rem; font-weight: 500; color: var(--color-dark); list-style: disc; margin-left: 1rem; }
+        .mockup-history-item { font-size: 0.75rem; color: #4b5563; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .mockup-analysis-box { padding: 1rem; border-radius: var(--radius-lg); background-color: #f9fafb; border: 1px solid #e5e7eb; }
+        .mockup-analysis-trend { font-size: 1rem; font-weight: 700; color: var(--color-dark); margin-bottom: 0.75rem; }
+        .mockup-keyword-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .mockup-keyword-item { padding: 0.125rem 0.5rem; font-size: 0.75rem; background-color: #e5e7eb; color: #4b5563; border-radius: 9999px; }
+
+
+        /* =========================================================================
+           10. BOLD WAVY FOOTER STYLES
+           ========================================================================= */
+        .bold-wavy-footer {
+            position: relative; padding-top: 0; padding-bottom: 3rem; overflow: hidden; z-index: 1; 
+            background-color: var(--color-accent);
+        }
+        .footer-wave { display: block; width: 100%; height: 100px; position: relative; top: 0; }
+        .footer-wave path { fill: var(--color-white); } /* Path fill matches the background color of the section above */
+        .bold-wavy-footer-content { padding-top: 3rem; text-align: center; color: var(--color-dark); }
+        .bold-footer-logo-wrapper { margin-bottom: 3rem; }
+        .bold-footer-logo { font-size: 5rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; text-align: center; color: var(--color-dark); }
+        .bold-footer-details-grid {
+            display: grid; grid-template-columns: 1fr; gap: 2rem; padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.2); text-align: left;
+        }
+        @media (min-width: 768px) { .bold-footer-details-grid { grid-template-columns: repeat(4, 1fr); } }
+        .footer-column p { margin-bottom: 0.5rem; font-size: 0.9rem; line-height: 1.4; color: var(--color-dark); cursor: pointer; transition: opacity 0.2s; }
+        .footer-column p:hover { opacity: 0.7; }
+        .footer-col-title { font-size: 1rem !important; font-weight: 800; margin-bottom: 1rem !important; color: var(--color-dark) !important; text-transform: uppercase; }
+        .newsletter-form { display: flex; border: 2px solid var(--color-dark); border-radius: 0.5rem; overflow: hidden; width: 100%; max-width: 200px; }
+        .newsletter-input { flex-grow: 1; padding: 0.5rem 0.75rem; border: none; outline: none; background-color: transparent; font-size: 0.875rem; color: var(--color-dark); }
+        .newsletter-submit { padding: 0.5rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; background-color: var(--color-dark); color: var(--color-accent); }
+        .newsletter-submit:hover { opacity: 0.9; }
+        .footer-copyright { padding-top: 1.5rem; font-size: 0.875rem; text-align: center; color: var(--color-dark) !important; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER/NAVIGATION - UPDATED STRUCTURE -->
+        <header class="header-nav" id="header-nav">
+            <div class="container header-layout">
+                
+                <!-- Desktop Left Links (2 buttons) -->
+                <nav class="nav-desktop nav-desktop-wrapper" id="nav-left-links">
+                    <div class="nav-pill-wrapper">
+                        <button class="nav-item active" data-page="home">Home</button>
+                        <button class="nav-item" data-page="features">Features</button>
+                    </div>
+                </nav>
+
+                <!-- Logo (Centered on desktop) -->
+                <div class="brand-logo">SEKO</div>
+                
+                <!-- Desktop Right Links (2 buttons) -->
+                <nav class="nav-desktop nav-desktop-wrapper" id="nav-right-links">
+                    <div class="nav-pill-wrapper">
+                        <button class="nav-item" data-page="pricing">Pricing</button>
+                        <button class="nav-item" data-page="contact">Contact</button>
+                    </div>
+                </nav>
+
+                <!-- Mobile Menu Button (Hamburger/X) -->
+                <div class="nav-mobile-button-wrapper">
+                    <button id="mobile-toggle" class="nav-mobile-toggle">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Drawer -->
+            <div id="mobile-drawer" class="nav-mobile-drawer">
+                <nav class="nav-mobile-list" id="nav-mobile-links">
+                    <!-- Note: Mobile links still show all four items for full navigation on small screens -->
+                    <button class="nav-mobile-item active" data-page="home">Home</button>
+                    <button class="nav-mobile-item" data-page="features">Features</button>
+                    <button class="nav-mobile-item" data-page="pricing">Pricing</button>
+                    <button class="nav-mobile-item" data-page="contact">Contact</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main id="main-content">
+            <!-- Content will be injected here by JavaScript based on page state -->
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bold-wavy-footer" style="background-color: var(--color-accent);">
+            <!-- SVG Wave Separator -->
+            <svg class="footer-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--color-white)" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,144C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+            </svg>
+
+            <div class="container bold-wavy-footer-content" style="color: var(--color-dark);">
+                <div class="bold-footer-logo-wrapper">
+                    <h1 class="bold-footer-logo" style="color: var(--color-dark);">SEKO</h1>
+                </div>
+
+                <div class="bold-footer-details-grid" style="color: var(--color-dark);">
+                    <div class="footer-column">
+                        <p class="footer-col-title">Newsletter</p>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your Email" class="newsletter-input" style="border-color: var(--color-dark); color: var(--color-dark);"/>
+                            <button class="newsletter-submit" style="background-color: var(--color-dark); color: var(--color-accent);">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="footer-column">
+                        <p class="footer-col-title">Company</p>
+                        <p>About Us</p>
+                        <p>Careers</p>
+                        <p>Blog</p>
+                    </div>
+
+                    <div class="footer-column">
+                        <p class="footer-col-title">Support</p>
+                        <p>FAQ</p>
+                        <p>Shipping</p>
+                        <p>Returns</p>
+                    </div>
+
+                    <div class="footer-column">
+                        <p class="footer-col-title">Connect</p>
+                        <p>contact@seko.com</p>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+
+                <div class="footer-copyright" style="color: var(--color-dark);">
+                    <p>&copy; 2025 SEKO Premium Ecom. All rights reserved.</p>
+                    <p class="footer-disclaimer">Privacy Policy | Terms of Service</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // =========================================================================
+        // JAVASCRIPT LOGIC AND TEMPLATES
+        // =========================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Re-render icons loaded via Lucide after DOM is ready
+            lucide.createIcons();
+
+            // --- State Management ---
+            let currentPage = 'home';
+            const mainContent = document.getElementById('main-content');
+            const navLeft = document.getElementById('nav-left-links'); // Reference to left pill container
+            const navRight = document.getElementById('nav-right-links'); // Reference to right pill container
+            const navMobile = document.getElementById('nav-mobile-links');
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const mobileDrawer = document.getElementById('mobile-drawer');
+
+            // --- Global Data ---
+            const ACCENT_COLOR = '#FCD956';
+
+            const featuresData = [
+                {
+                    title: "Instant Visual Search & Copy Review",
+                    description: "Our core feature uses visual search to match items and allows for instant review of luxury-grade marketing copy generated by our internal system. Turn simple product data into a captivating brand narrative instantly.",
+                    features: ["Image-to-Product Matching", "Outfit Suggestions", "Instant Copy Review", "Save Looks to Moodboards"],
+                    reverse: false,
+                    mockupContentId: 'mockup-one-content'
+                },
+                {
+                    title: "Curated Style Trend Analysis",
+                    description: "The App analyzes your historical purchases and saved items to instantly define your core aesthetic, providing structured insights and precise, personalized recommendations based on style data.",
+                    features: ["Secured Biometric Payment", "Structured Data Analysis", "Personalized Next Purchase Advice", "Instant Order Tracking"],
+                    reverse: true,
+                    mockupContentId: 'mockup-two-content'
+                }
+            ];
+
+            // --- Mockup Content Templates (Static) ---
+
+            const createMockupCard = (title, subtitle, iconName, color, onClickHandler = '') => {
+                // Generates the HTML string for a MockupCard
+                return `
+                    <button class="mockup-card interactive-card" onclick="${onClickHandler}">
+                        <div class="mockup-card-icon" style="background-color: ${color};">
+                            <i data-lucide="${iconName}" style="color: var(--color-white);"></i>
+                        </div>
+                        <div class="mockup-card-text">
+                            <p class="mockup-card-title">${title}</p>
+                            <p class="mockup-card-subtitle">${subtitle}</p>
+                        </div>
+                    </button>
+                `;
+            };
+
+            const mockupContentOne = `
+                <div class="mockup-content-area">
+                    <h2 class="mockup-heading">Product Details</h2>
+                    <div class="mockup-desc-container">
+                        <p class="mockup-desc-title">Current Item Pitch</p>
+                        <div class="mockup-desc-box">
+                            <p class="mockup-desc-text">The minimalist wallet, masterfully hand-stitched from midnight blue Italian leather, embodies silent luxury. Its construction showcases impeccable craftsmanship, designed to age beautifully and offer a refined texture with every use. This piece is not just storage; it is a signature of enduring style and exclusivity.</p>
+                        </div>
+                    </div>
+                    ${createMockupCard("View Pitch Details", "Refined marketing copy", "message-square", "#f59e0b", "alert('Product Pitch viewed!')")}
+                    ${createMockupCard("Found Matches", "12 High-Confidence Results", "check-circle", "#10b981")}
+                    ${createMockupCard("Style Score", "92% Compatibility", "heart", "#ec4899")}
+                </div>
+            `;
+
+            const mockupContentTwo = `
+                <div class="mockup-content-area">
+                    <h2 class="mockup-heading">Purchase History</h2>
+                    <div class="mockup-purchase-history">
+                        <p class="mockup-desc-title-small">Last 5 Purchases:</p>
+                        <ul class="mockup-history-list">
+                            <li class="mockup-history-item">Minimalist silver ring</li>
+                            <li class="mockup-history-item">Classic white leather sneakers</li>
+                            <li class="mockup-history-item">Navy blue cashmere sweater</li>
+                            <li class="mockup-history-item">Geometric brass lamp</li>
+                            <li class="mockup-history-item">Neutral linen t-shirt</li>
+                        </ul>
+                    </div>
+                    ${createMockupCard("View Trend Analysis", "Identify core style and next purchase", "award", "#f59e0b", "alert('Trend: Scandinavian Minimalism\\nAdvice: Structured grey wool blazer recommended.')")}
+
+                    <div class="mockup-analysis-box">
+                        <p class="mockup-desc-title-small">Identified Trend:</p>
+                        <p class="mockup-analysis-trend">Scandinavian Minimalism</p>
+                        <p class="mockup-desc-title-small">Next Purchase Advice:</p>
+                        <p class="mockup-analysis-advice">You should consider purchasing a structured grey wool blazer. This piece complements your existing neutral palette and elevates your classic item investment.</p>
+                        <div class="mockup-keyword-wrapper">
+                            <p class="mockup-desc-title-small">Style Keywords:</p>
+                            <div class="mockup-keyword-list">
+                                <span class="mockup-keyword-item">Minimalist</span>
+                                <span class="mockup-keyword-item">Classic</span>
+                                <span class="mockup-keyword-item">Neutral</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // --- Component Render Functions ---
+
+            const renderMobileMockup = (innerContent) => {
+                return `
+                    <div class="mobile-mockup">
+                        <div class="mobile-notch"></div>
+                        <div class="mobile-screen-container">
+                            <div class="mobile-status-bar">
+                                <span>9:41</span>
+                                <div class="mobile-status-icons">
+                                    <i data-lucide="smartphone" class="icon-xs"></i>
+                                    <i data-lucide="align-justify" class="icon-xs"></i>
+                                </div>
+                            </div>
+                            ${innerContent}
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderAestheticCardGrid = () => {
+                return `
+                    <div class="aesthetic-grid-section">
+                        <div class="container">
+                            <h2 class="aesthetic-grid-title">The Premium Ecom Promise</h2>
+                            <div class="aesthetic-grid-layout" id="aesthetic-cards">
+                                <div class="aesthetic-card" data-ref="card">
+                                    <div class="aesthetic-card-icon-wrapper" style="box-shadow: 0 8px 15px -3px ${ACCENT_COLOR}50;">
+                                        <i data-lucide="award" size="30" style="color: var(--color-dark);"></i>
+                                    </div>
+                                    <h3 class="aesthetic-card-title">Uncompromising Quality</h3>
+                                    <p class="aesthetic-card-description">Every item is hand-vetted for authenticity and exceptional craftsmanship.</p>
+                                </div>
+                                <div class="aesthetic-card" data-ref="card">
+                                    <div class="aesthetic-card-icon-wrapper" style="box-shadow: 0 8px 15px -3px ${ACCENT_COLOR}50;">
+                                        <i data-lucide="truck" size="30" style="color: var(--color-dark);"></i>
+                                    </div>
+                                    <h3 class="aesthetic-card-title">Expedited Delivery</h3>
+                                    <p class="aesthetic-card-description">Our global logistics network ensures your premium selection arrives swiftly and securely.</p>
+                                </div>
+                                <div class="aesthetic-card" data-ref="card">
+                                    <div class="aesthetic-card-icon-wrapper" style="box-shadow: 0 8px 15px -3px ${ACCENT_COLOR}50;">
+                                        <i data-lucide="message-square" size="30" style="color: var(--color-dark);"></i>
+                                    </div>
+                                    <h3 class="aesthetic-card-title">White-Glove Support</h3>
+                                    <p class="aesthetic-card-description">Dedicated service ready to assist you 24/7 with personalized attention.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderDesignSystemShowcase = () => {
+                const colors = [
+                    { name: 'Accent Yellow', hex: '#FCD956' }, { name: 'Dark Text', hex: '#1f2937' }, 
+                    { name: 'Light Text', hex: '#6b7280' }, { name: 'Soft Background', hex: '#f7f7f7' }, 
+                    { name: 'White', hex: '#ffffff' }
+                ];
+                let colorBoxes = colors.map(c => `
+                    <div class="color-swatch-detail">
+                        <div class="color-box" style="background-color: ${c.hex};"></div>
+                        <p class="color-hex">${c.hex}</p>
+                        <p class="color-name">${c.name}</p>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="design-system-showcase-section">
+                        <div class="container design-system-card">
+                            <div class="design-system-typography-section">
+                                <h3 class="design-system-title">TYPOGRAPHY</h3>
+                                <div class="typography-preview">
+                                    <div class="typography-large-aa">Aa</div>
+                                    <div class="typography-details">
+                                        <p class="typography-font-name">Font: Albert Sans</p>
+                                        <p class="typography-font-weight">Weights Used: Regular, Bold, Extrabold (400, 700, 800)</p>
+                                        <p class="typography-sample-text">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                                        <p class="typography-sample-text">abcdefghijklmnopqrstuvwxyz</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="design-system-colors-section">
+                                <h3 class="design-system-title">COLORS</h3>
+                                <div class="color-palette-wrapper">${colorBoxes}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderMockupShowcaseSection = () => {
+                const MockupScheduleContent = `
+                    <div class="mockup-content-area">
+                        <h2 class="mockup-heading">Schedule</h2>
+                        <div class="mockup-schedule-list">
+                            <div class="schedule-item active"><p>11:00 am - 12:30 pm</p><div class="toggle-switch active"></div></div>
+                            <div class="schedule-item"><p>09:00 pm</p><div class="toggle-switch"></div></div>
+                            <div class="schedule-item"><p>10:00 am - 11:50 pm</p><div class="toggle-switch"></div></div>
+                            <div class="schedule-item"><p>Wake-up</p><div class="toggle-switch"></div></div>
+                        </div>
+                        <button class="schedule-add-button">+</button>
+                    </div>
+                `;
+                const MockupTimerContent = `
+                    <div class="mockup-content-area timer-mockup">
+                        <h2 class="mockup-heading">Timer</h2>
+                        <div class="time-picker-wrapper">
+                            <div class="time-unit">08</div>
+                            <div class="time-separator">:</div>
+                            <div class="time-unit">00</div>
+                        </div>
+                        <div class="time-labels"><span>AM</span><span>PM</span></div>
+                        <div class="day-selector">
+                            <span class="day-chip active" style="background-color: ${ACCENT_COLOR}; color: var(--color-dark);">Mon</span>
+                            <span class="day-chip active" style="background-color: ${ACCENT_COLOR}; color: var(--color-dark);">Tue</span>
+                            <span class="day-chip active" style="background-color: ${ACCENT_COLOR}; color: var(--color-dark);">Wed</span>
+                            <span class="day-chip">Thu</span>
+                            <span class="day-chip">Fri</span>
+                            <span class="day-chip">Sat</span>
+                            <span class="day-chip">Sun</span>
+                        </div>
+                    </div>
+                `;
+                const MockupColorContent = `
+                    <div class="mockup-content-area color-mockup">
+                        <h2 class="mockup-heading">Colors</h2>
+                        <div class="color-wheel-placeholder"></div>
+                        <p class="hex-display">Hex: #FCD956</p>
+                        <div class="color-palette-title">Added colors</div>
+                        <div class="color-palette-grid">
+                            <div class="color-swatch" style="background-color: ${ACCENT_COLOR};"></div>
+                            <div class="color-swatch" style="background-color: #D1D5DB;"></div>
+                            <div class="color-swatch" style="background-color: #10B981;"></div>
+                            <div class="color-swatch" style="background-color: #FCD956;"></div>
+                            <div class="color-swatch" style="background-color: #EF4444;"></div>
+                            <div class="color-swatch" style="background-color: #4B5563;"></div>
+                            <div class="color-swatch" style="background-color: #9CA3AF;"></div>
+                        </div>
+                    </div>
+                `;
+                return `
+                    <div class="mockup-showcase-section">
+                        <div class="container">
+                            <div class="showcase-banner">
+                                <!-- IMAGE PLACEMENT: Replace this URL (in the CSS section) with your actual image for the aesthetic home interior banner. -->
+                            </div>
+                        </div>
+
+                        <div class="container text-center py-10">
+                            <div class="section-toggle-switch"></div> 
+                            <h2 class="section-title-large">Settings</h2>
+                            <p class="section-description">Here the user can choose the time of turning on the lamp or tune the period when lamp should work, pick a date, select a color and choose a theme.</p>
+                        </div>
+
+                        <div class="container mockup-trio-wrapper">
+                            ${renderMobileMockup(MockupScheduleContent)}
+                            ${renderMobileMockup(MockupTimerContent)}
+                            ${renderMobileMockup(MockupColorContent)}
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderFeatureSection = (data) => {
+                const mockupHtml = renderMobileMockup(data.mockupContentId === 'mockup-one-content' ? mockupContentOne : mockupContentTwo);
+                const featureCards = data.features.map(f => `
+                    <div class="feature-card">
+                        <i data-lucide="check-circle" size="20" style="color: ${ACCENT_COLOR};" class="icon-shrink"></i>
+                        <span class="feature-card-text">${f}</span>
+                    </div>
+                `).join('');
+
+                const contentOrder = data.reverse ? 'reverse-layout' : '';
+
+                return `
+                    <div class="feature-section container ${contentOrder}">
+                        <div class="feature-mockup-col">
+                            ${mockupHtml}
+                        </div>
+                        <div class="feature-text-col">
+                            <h2 class="feature-title">${data.title}</h2>
+                            <p class="feature-description">${data.description}</p>
+                            <div class="feature-card-grid">${featureCards}</div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderComingSoonPage = (title) => {
+                return `
+                    <div class="coming-soon-page">
+                        <h2>${title} page coming soon...</h2>
+                    </div>
+                `;
+            }
+
+            const renderHomePage = () => {
+                let html = `
+                    <div class="hero-section" id="hero-section">
+                        <div class="container hero-layout">
+                            <div class="hero-text-content">
+                                <h1 class="hero-headline">The Future of <span style="color: ${ACCENT_COLOR};">Curated</span> Commerce.</h1>
+                                <p class="hero-subheading">Discover, customize, and own the items that truly define your style. A seamless, high-touch experience designed for the modern connoisseur.</p>
+                                <button class="hero-cta-button" style="background-color: ${ACCENT_COLOR};">
+                                    Explore All Features <i data-lucide="arrow-right" size="18" class="icon-inline"></i>
+                                </button>
+                            </div>
+                            <div class="hero-mockup-container">
+                                ${renderMobileMockup(`
+                                    <div class="mockup-content-area">
+                                        <h2 class="mockup-heading">Personalized Feed</h2>
+                                        <div class="mockup-card-featured">
+                                            <div class="mockup-card-featured-icon">
+                                                <i data-lucide="heart" size="20" style="color: #ef4444; fill: #ef4444;"></i>
+                                                <p class="mockup-card-title">Your Daily Style Drop</p>
+                                            </div>
+                                            <p class="mockup-card-subtitle-small">Based on recent saves and purchases. 3 New Items.</p>
+                                        </div>
+                                        ${createMockupCard("New Arrivals", "34 Items Added", "shopping-bag", "#9ca3af")}
+                                        ${createMockupCard("Exclusive Price", "20% Off Select", "dollar-sign", "#4f46e5")}
+                                        <div class="mockup-image-placeholder">
+                                            <div class="placeholder-text">App Home Screen Mockup</div>
+                                        </div>
+                                        <div class="mockup-footer">
+                                            <i data-lucide="home" size="20" class="mockup-icon-active"></i>
+                                            <i data-lucide="heart" size="20" class="mockup-icon-inactive"></i>
+                                            <i data-lucide="user" size="20" class="mockup-icon-inactive"></i>
+                                            <i data-lucide="settings" size="20" class="mockup-icon-inactive"></i>
+                                        </div>
+                                    </div>
+                                `)}
+                            </div>
+                        </div>
+                    </div>
+                    ${renderAestheticCardGrid()}
+                    ${renderDesignSystemShowcase()}
+                    ${renderMockupShowcaseSection()}
+                    <div id="features" class="features-section">
+                        ${featuresData.map(renderFeatureSection).join('')}
+                    </div>
+                `;
+                return html;
+            };
+
+            // --- Router and Renderer ---
+
+            const renderPage = (pageName) => {
+                let content;
+                switch (pageName) {
+                    case 'home':
+                    case 'features': // Features is shown on the home page, so render home for now
+                        content = renderHomePage();
+                        break;
+                    case 'pricing':
+                        content = renderComingSoonPage('Pricing');
+                        break;
+                    case 'contact':
+                        content = renderComingSoonPage('Contact');
+                        break;
+                    default:
+                        content = renderHomePage();
+                }
+                mainContent.innerHTML = content;
+                
+                // 1. Re-initialize Lucide icons after setting innerHTML
+                lucide.createIcons();
+
+                // 2. Run GSAP Animations
+                initAnimations();
+                
+                // 3. Update active links
+                updateActiveLink(currentPage);
+            };
+            
+            // --- GSAP Initialization ---
+            const initAnimations = () => {
+                if (typeof window.gsap !== 'undefined') {
+                    // Hero Section Animation
+                    const heroSection = document.getElementById('hero-section');
+                    if (heroSection) {
+                        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+                        
+                        tl.from(heroSection.querySelector('.hero-text-content h1'), { y: 50, opacity: 0, duration: 1 })
+                          .from(heroSection.querySelector('.hero-text-content p'), { y: 30, opacity: 0, duration: 0.8 }, "-=0.6")
+                          .from(heroSection.querySelector('.hero-text-content button'), { scale: 0.8, opacity: 0, duration: 0.6 }, "-=0.4")
+                          .from(heroSection.querySelector('.mobile-mockup'), { scale: 0.8, opacity: 0, duration: 1.2, x: 50 }, "-=0.8");
+                    }
+                    
+                    // Aesthetic Grid Cards Animation (using ScrollTrigger for staggered appearance)
+                    const aestheticCards = document.querySelectorAll('#aesthetic-cards .aesthetic-card');
+                    if (aestheticCards.length > 0) {
+                         // Ensure ScrollTrigger is registered before using it
+                        if (typeof ScrollTrigger !== 'undefined') {
+                            gsap.registerPlugin(ScrollTrigger);
+
+                            gsap.fromTo(aestheticCards, 
+                                { opacity: 0, y: 50 }, 
+                                { 
+                                    opacity: 1, 
+                                    y: 0, 
+                                    duration: 0.8, 
+                                    stagger: 0.2, 
+                                    ease: "power3.out", 
+                                    scrollTrigger: {
+                                        trigger: "#aesthetic-cards",
+                                        start: "top 85%", // Start animation when 85% of the card grid is visible
+                                        toggleActions: "play none none none"
+                                    }
+                                }
+                            );
+                        } else {
+                            // Simple staggered fade in if ScrollTrigger is not loaded yet
+                             gsap.fromTo(aestheticCards, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.2 });
+                        }
+                    }
+                }
+            };
+
+
+            // --- Navigation Logic ---
+
+            const updateActiveLink = (targetPage) => {
+                // Collect all buttons from both desktop pill containers and mobile drawer
+                const allNavs = [navLeft, navRight, navMobile];
+                
+                allNavs.forEach(nav => {
+                    if (nav) {
+                        nav.querySelectorAll('[data-page]').forEach(link => {
+                            if (link.getAttribute('data-page') === targetPage) {
+                                link.classList.add('active');
+                            } else {
+                                link.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            };
+
+            const handleNavigationClick = (event) => {
+                const target = event.target.closest('[data-page]');
+                if (target) {
+                    event.preventDefault();
+                    const pageName = target.getAttribute('data-page');
+                    currentPage = pageName;
+                    
+                    // Only render page and update links after setting new currentPage
+                    renderPage(pageName); 
+
+                    // Close mobile drawer on link click
+                    mobileDrawer.classList.remove('open');
+                }
+            };
+            
+            // Add click listeners to navigation wrappers
+            if (navLeft) navLeft.addEventListener('click', handleNavigationClick);
+            if (navRight) navRight.addEventListener('click', handleNavigationClick);
+            if (navMobile) navMobile.addEventListener('click', handleNavigationClick);
+
+
+            // Mobile Menu Toggle
+            mobileToggle.addEventListener('click', () => {
+                mobileDrawer.classList.toggle('open');
+                // Toggle Lucide icon
+                const icon = mobileToggle.querySelector('i');
+                if (mobileDrawer.classList.contains('open')) {
+                    icon.setAttribute('data-lucide', 'x');
+                } else {
+                    icon.setAttribute('data-lucide', 'menu');
+                }
+                lucide.createIcons();
+            });
+
+            // Initial render
+            renderPage(currentPage);
+        });
+    </script>
+</body>
+</html>
