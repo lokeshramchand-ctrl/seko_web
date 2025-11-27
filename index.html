@@ -409,122 +409,83 @@
         /* =========================================================================
            6. DESIGN SYSTEM SHOWCASE STYLES
            ========================================================================= */
-        .design-system-showcase-section {
-            padding: 4rem 0;
-            background-color: var(--color-soft-bg);
-        }
+           .ds-wrapper {
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 35px;
+    padding: 50px;
+    margin: 60px auto;
+    max-width: 1100px;
+    background: white;
+}
 
-        .design-system-card {
-            background-color: var(--color-white);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-soft);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
+.design-system-showcase-section {
+    background: #fff;
+    padding: 60px 0;
+}
 
-        @media (min-width: 768px) {
-            .design-system-card {
-                padding: 4rem;
-                flex-direction: row;
-                justify-content: space-between;
-            }
+/* Remove shadow + rounded from container */
+.design-system-card {
+    background: transparent;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
 
-            .design-system-typography-section {
-                flex-basis: 45%;
-            }
+/* Title style (uppercase, small, spaced) */
+.design-system-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
 
-            .design-system-colors-section {
-                flex-basis: 45%;
-            }
-        }
+/* Typography Layout */
+.typography-preview {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
 
-        .design-system-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--color-light);
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-        }
+.typography-large-aa {
+    font-size: 10rem;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: #2d2d2d;
+}
 
-        .typography-preview {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+.typography-details {
+    font-size: 44px;
+    line-height: 1.6;
+    color: #333;
+}
 
-        @media (min-width: 768px) {
-            .typography-preview {
-                flex-direction: row;
-                gap: 3rem;
-            }
-        }
+.typography-font-name,
+.typography-font-weight {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
+}
 
-        .typography-large-aa {
-            font-size: 5rem;
-            font-weight: 800;
-            line-height: 1;
-            color: var(--color-dark);
-        }
+.typography-sample-text {
+    font-size: 32px;
+    color: #000;
+    margin-top: 6px;
+}
 
-        .typography-details {
-            font-size: 1rem;
-        }
+/* Color section styling */
+.color-palette-wrapper {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+}
 
-        .typography-font-name,
-        .typography-font-weight {
-            font-weight: 700;
-            color: var(--color-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .typography-sample-text {
-            font-size: 0.875rem;
-            color: var(--color-dark);
-            line-height: 1.5;
-        }
-
-        /* Color Styles */
-        .color-palette-wrapper {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .color-palette-wrapper {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-
-        .color-swatch-detail {
-            text-align: center;
-            font-size: 0.75rem;
-        }
-
-        .color-box {
-            width: 100%;
-            padding-top: 150%;
-            border-radius: 1rem;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (min-width: 768px) {
-            .color-box {
-                padding-top: 100%;
-            }
-        }
-
-        .color-hex {
-            font-weight: 600;
-            color: var(--color-dark);
-        }
-
-        .color-name {
-            color: var(--color-light);
-        }
+.color-box {
+    width: 90px;
+    height: 180px;
+    border-radius: 20px;
+}
 
         /* =========================================================================
            7. MOCKUP SHOWCASE SECTION STYLES
@@ -1403,27 +1364,47 @@
             `).join('');
 
                 return `
-                <div class="design-system-showcase-section">
-                    <div class="container design-system-card">
-                        <div class="design-system-typography-section">
-                            <h3 class="design-system-title">TYPOGRAPHY</h3>
-                            <div class="typography-preview">
-                                <div class="typography-large-aa">Aa</div>
-                                <div class="typography-details">
-                                    <p class="typography-font-name">Font: Albert Sans</p>
-                                    <p class="typography-font-weight">Weights Used: Regular, Bold, Extrabold (400, 700, 800)</p>
-                                    <p class="typography-sample-text">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-                                    <p class="typography-sample-text">abcdefghijklmnopqrstuvwxyz</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="ds-wrapper">
 
-                        <div class="design-system-colors-section">
-                            <h3 class="design-system-title">COLORS</h3>
-                            <div class="color-palette-wrapper">${colorBoxes}</div>
-                        </div>
-                    </div>
+               <div class="design-system-showcase-section">
+    <div class="container design-system-card">
+
+        <!-- Typography Block -->
+        <div class="design-system-typography-section">
+            <h3 class="design-system-title">TYPOGRAPHY</h3>
+
+            <div class="typography-preview">
+                <div class="typography-large-aa">Aa</div>
+
+                <div class="typography-details">
+                    <p class="typography-font-name">Text: Albert Sans</p>
+                    <p class="typography-font-weight">
+                        Weight: Regular, Medium, Bold
+                    </p>
+                    <p class="typography-sample-text">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                    <p class="typography-sample-text">abcdefghijklmnopqrstuvwxyz</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Colors Block -->
+        <div class="design-system-colors-section">
+            <h3 class="design-system-title">COLORS</h3>
+
+            <div class="color-palette-wrapper">
+                <div class="color-box" style="background:#F33;"></div>
+                <div class="color-box" style="background:#D95D33;"></div>
+                <div class="color-box" style="background:#FF875A;"></div>
+                <div class="color-box" style="background:#4D6BFF;"></div>
+                <div class="color-box" style="background:#C6CEFF;"></div>
+                <div class="color-box" style="background:#EFEFF0;"></div>
+                <div class="color-box" style="background:#0E1525;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
             `;
             };
 
