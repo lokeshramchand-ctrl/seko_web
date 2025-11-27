@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEKO Premium Ecom Showcase</title>
+    <title>SEKO</title>
     <!-- Load Albert Sans Font -->
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100..900&display=swap" rel="stylesheet">
     <!-- Load Lucide Icons -->
@@ -431,8 +431,8 @@
                 <!-- Desktop Left Links (2 buttons) -->
                 <nav class="nav-desktop nav-desktop-wrapper" id="nav-left-links">
                     <div class="nav-pill-wrapper">
-                        <button class="nav-item active" data-page="home">Home</button>
-                        <button class="nav-item" data-page="features">Features</button>
+                        <button class="nav-item active" data-page="home">Overview</button>
+                        <button class="nav-item" data-page="features">App Features</button>
                     </div>
                 </nav>
 
@@ -442,8 +442,8 @@
                 <!-- Desktop Right Links (2 buttons) -->
                 <nav class="nav-desktop nav-desktop-wrapper" id="nav-right-links">
                     <div class="nav-pill-wrapper">
-                        <button class="nav-item" data-page="pricing">Pricing</button>
-                        <button class="nav-item" data-page="contact">Contact</button>
+                        <button class="nav-item" data-page="pricing">Case Study</button>
+                        <button class="nav-item" data-page="contact">About / Contact</button>
                     </div>
                 </nav>
 
@@ -459,10 +459,10 @@
             <div id="mobile-drawer" class="nav-mobile-drawer">
                 <nav class="nav-mobile-list" id="nav-mobile-links">
                     <!-- Note: Mobile links still show all four items for full navigation on small screens -->
-                    <button class="nav-mobile-item active" data-page="home">Home</button>
-                    <button class="nav-mobile-item" data-page="features">Features</button>
-                    <button class="nav-mobile-item" data-page="pricing">Pricing</button>
-                    <button class="nav-mobile-item" data-page="contact">Contact</button>
+                    <button class="nav-mobile-item active" data-page="home">Overview</button>
+                    <button class="nav-mobile-item" data-page="features">App Features</button>
+                    <button class="nav-mobile-item" data-page="pricing">Case Study</button>
+                    <button class="nav-mobile-item" data-page="contact">About / Contact</button>
                 </nav>
             </div>
         </header>
@@ -471,59 +471,61 @@
         <main id="main-content">
             <!-- Content will be injected here by JavaScript based on page state -->
         </main>
+<!-- FOOTER -->
+<footer class="bold-wavy-footer" style="background-color: var(--color-accent);">
+    <!-- SVG Wave Separator -->
+    <svg class="footer-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="var(--color-white)" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,144C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+    </svg>
+    
 
-        <!-- FOOTER -->
-        <footer class="bold-wavy-footer" style="background-color: var(--color-accent);">
-            <!-- SVG Wave Separator -->
-            <svg class="footer-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                <path fill="var(--color-white)" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,144C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-            </svg>
+    <div class="container bold-wavy-footer-content" style="color: var(--color-dark);">
+        <div class="bold-footer-logo-wrapper">
+            <h1 class="bold-footer-logo" style="color: var(--color-dark);">SEKO</h1>
+        </div>
 
-            <div class="container bold-wavy-footer-content" style="color: var(--color-dark);">
-                <div class="bold-footer-logo-wrapper">
-                    <h1 class="bold-footer-logo" style="color: var(--color-dark);">SEKO</h1>
-                </div>
-
-                <div class="bold-footer-details-grid" style="color: var(--color-dark);">
-                    <div class="footer-column">
-                        <p class="footer-col-title">Newsletter</p>
-                        <div class="newsletter-form">
-                            <input type="email" placeholder="Your Email" class="newsletter-input" style="border-color: var(--color-dark); color: var(--color-dark);"/>
-                            <button class="newsletter-submit" style="background-color: var(--color-dark); color: var(--color-accent);">
-                                <i data-lucide="arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="footer-column">
-                        <p class="footer-col-title">Company</p>
-                        <p>About Us</p>
-                        <p>Careers</p>
-                        <p>Blog</p>
-                    </div>
-
-                    <div class="footer-column">
-                        <p class="footer-col-title">Support</p>
-                        <p>FAQ</p>
-                        <p>Shipping</p>
-                        <p>Returns</p>
-                    </div>
-
-                    <div class="footer-column">
-                        <p class="footer-col-title">Connect</p>
-                        <p>contact@seko.com</p>
-                        <p>+1 (555) 123-4567</p>
-                    </div>
-                </div>
-
-                <div class="footer-copyright" style="color: var(--color-dark);">
-                    <p>&copy; 2025 SEKO Premium Ecom. All rights reserved.</p>
-                    <p class="footer-disclaimer">Privacy Policy | Terms of Service</p>
+        <div class="bold-footer-details-grid" style="color: var(--color-dark);">
+            <div class="footer-column">
+                <p class="footer-col-title">Newsletter</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" class="newsletter-input" style="border-color: var(--color-dark); color: var(--color-dark);"/>
+                    <button class="newsletter-submit" style="background-color: var(--color-dark); color: var(--color-accent);">
+                        <i data-lucide="arrow-right"></i>
+                    </button>
                 </div>
             </div>
-        </footer>
+
+            <div class="footer-column">
+                <p class="footer-col-title">Project Info</p>
+                <p>Built for Final Year Project</p>
+                <p>Case Study + UI Showcase</p>
+                <p>React + TypeScript + GSAP</p>
+            </div>
+
+            <div class="footer-column">
+                <p class="footer-col-title">Resources</p>
+                <p>Documentation</p>
+                <p>Design System</p>
+                <p>Research Notes</p>
+            </div>
+
+            <div class="footer-column">
+                <p class="footer-col-title">Connect</p>
+                <p>lokeshramchand@gmail.com</p>
+                <p>LinkedIn / GitHub</p>
+            </div>
+        </div>
+
+        <div class="footer-copyright" style="color: var(--color-dark);">
+            <p>&copy; 2025 SEKO — A student-built concept experience.</p>
+            <p class="footer-disclaimer">Made with passion, coffee & creativity </p>
+        </div>
+    </div>
+</footer>
     </div>
 
+    <!-- Lucide Icons Script -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.min.js"></script>
 <script>
     // =========================================================================
     // JAVASCRIPT LOGIC AND TEMPLATES
