@@ -409,83 +409,91 @@
         /* =========================================================================
            6. DESIGN SYSTEM SHOWCASE STYLES
            ========================================================================= */
-           .ds-wrapper {
-    border: 1px solid rgba(0,0,0,0.07);
-    border-radius: 35px;
-    padding: 50px;
-    margin: 60px auto;
-    max-width: 1100px;
-    background: white;
-}
+        .ds-wrapper {
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 35px;
+            padding: 50px;
+            margin: 60px auto;
+            max-width: 1100px;
+            background: white;
+        }
 
-.design-system-showcase-section {
-    background: #fff;
-    padding: 60px 0;
-}
+        .design-system-showcase-section {
+            background: #fff;
+            padding: 60px 0;
+        }
 
-/* Remove shadow + rounded from container */
-.design-system-card {
-    background: transparent;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
-}
+        /* Remove shadow + rounded from container */
+        .design-system-card {
+            background: transparent;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
 
-/* Title style (uppercase, small, spaced) */
-.design-system-title {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    opacity: 0.6;
-    margin-bottom: 20px;
-}
+        /* Title style (uppercase, small, spaced) */
+        .design-system-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            margin-bottom: 20px;
+        }
 
-/* Typography Layout */
-.typography-preview {
-    display: flex;
-    align-items: flex-start;
-    gap: 40px;
-}
+        .typo-meta-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
 
-.typography-large-aa {
-    font-size: 10rem;
-    font-weight: 400;
-    margin-bottom: 0;
-    color: #2d2d2d;
-}
+        /* Typography Layout */
+        .typography-preview {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+        }
 
-.typography-details {
-    font-size: 44px;
-    line-height: 1.6;
-    color: #333;
-}
+        .typography-large-aa {
+            font-size: 10rem;
+            font-weight: 400;
+            margin-bottom: 0;
+            color: #2d2d2d;
+        }
 
-.typography-font-name,
-.typography-font-weight {
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #333;
-}
+        .typography-details {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
 
-.typography-sample-text {
-    font-size: 32px;
-    color: #000;
-    margin-top: 6px;
-}
+        .typography-font-name,
+        .typography-font-weight {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #333;
+        }
 
-/* Color section styling */
-.color-palette-wrapper {
-    display: flex;
-    gap: 36px;
-    flex-wrap: wrap;
-}
+        .typography-sample-text {
+            font-size: 32px;
+            color: #000;
+            margin-top: 6px;
+        }
 
-.color-box {
-    width: 90px;
-    height: 180px;
-    border-radius: 20px;
-}
+        /* Color section styling */
+        .color-palette-wrapper {
+            display: flex;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+
+        .color-box {
+            width: 90px;
+            height: 180px;
+            border-radius: 20px;
+        }
 
         /* =========================================================================
            7. MOCKUP SHOWCASE SECTION STYLES
@@ -1377,10 +1385,10 @@
                 <div class="typography-large-aa">Aa</div>
 
                 <div class="typography-details">
-                    <p class="typography-font-name">Text: Albert Sans</p>
-                    <p class="typography-font-weight">
-                        Weight: Regular, Medium, Bold
-                    </p>
+<div class="typo-meta-row">
+    <p class="typography-font-name">Text: Albert Sans</p>
+    <p class="typography-font-weight">Weight: Regular, Medium, Bold</p>
+</div>
                     <p class="typography-sample-text">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
                     <p class="typography-sample-text">abcdefghijklmnopqrstuvwxyz</p>
                 </div>
