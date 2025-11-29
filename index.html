@@ -366,6 +366,7 @@
             margin-bottom: 3rem;
             color: #1f2937;
         }
+
         .bento-grid {
             display: grid;
             gap: 1.5rem;
@@ -374,19 +375,19 @@
 
         .bento-card {
             background: white;
-            padding: 2rem;
+            padding: 1rem;
             border-radius: 28px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
             display: flex;
             flex-direction: column;
-            gap: 1.8rem;
+            gap: 0.8rem;
             justify-content: space-between;
         }
 
         .bento-card.big {
             grid-column: span 4;
             height: 350px;
-            
+
         }
 
         .bento-card.tall {
@@ -401,6 +402,7 @@
             flex-direction: row;
             align-items: center;
             gap: 1.5rem;
+
         }
 
         .bento-icon {
@@ -548,6 +550,84 @@
             height: 180px;
             border-radius: 20px;
         }
+        /* =========================================================================
+           6. DESIGN SYSTEM SHOWCASE STYLES
+           ========================================================================= */
+        .ds-wrapper {
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 35px;
+            padding: 50px;
+            margin: 60px auto;
+            max-width: 1100px;
+            background: white;
+        }
+
+        .design-system-showcase-section {
+            background: #fff;
+            padding: 60px 0;
+        }
+
+        /* Remove shadow + rounded from container */
+        .design-system-card {
+            background: transparent;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .design-system-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            margin-bottom: 20px;
+        }
+
+        .typo-meta-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        /* Typography Layout */
+        .typography-preview {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+        }
+
+        .problem {
+            font-size: 8rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #2d2d2d;
+        }
+
+        .typography-details {
+            padding-left: 3px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .typography-font-name,
+        .typography-font-weight {
+            padding-bottom: 64px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .problem-info {
+            letter-spacing: 0.15rem;
+            font-size: px;
+            color: #000;
+            margin-top: 6px;
+        }
+
 
         /* =========================================================================
            7. MOCKUP SHOWCASE SECTION STYLES
@@ -1506,6 +1586,41 @@
             `;
             };
 
+            const Problem = () => {
+
+
+                return `
+                <div class="ds-wrapper">
+
+               <div class="design-system-showcase-section">
+            <div class="container design-system-card">
+
+
+                <div class="problem">The</div>
+                <div class="problem">Problem</div>
+
+
+                <div class="typography-details">
+                  <p class="problem-info">
+  In many gated communities, local supermarkets struggle to compete with fast-commerce platforms like Blinkit, Zepto, and Swiggy Instamart. Despite having essential items readily available, residents still prefer ordering online because it offers convenience, quick delivery, and an easy digital browsing experience.
+  <br /><br />
+  This shift in purchasing behavior has created a gap between residents and the local store. The current ordering process—via phone calls or in-person visits—causes miscommunication, inconsistent pricing, manual stock checks, and poor order tracking. 
+  <br /><br />
+  As a result, stores lose potential revenue and operational efficiency declines. In some cases, owners are forced to shut down due to low engagement, even though the store is located within the community and capable of fulfilling everyday needs.
+</p>
+
+            </div>
+        </div>
+
+
+            
+    </div>
+</div>
+</div>
+
+            `;
+            };
+
             const renderMockupShowcaseSection = () => {
                 return `
                 <div class="mockup-showcase-section">
@@ -1581,6 +1696,7 @@
                 </div>
                 ${renderAestheticCardGrid()}
                 ${renderDesignSystemShowcase()}
+                ${Problem()}
                 ${renderMockupShowcaseSection()}
                 <div id="features" class="features-section">
                     ${featuresData.map(renderFeatureSection).join('')}
