@@ -1641,8 +1641,8 @@
                         ${renderMobileMockup(IMAGES.showcaseTwo, 'Showcase Screen 2')}
                         ${renderMobileMockup(IMAGES.showcaseThree, 'Showcase Screen 3')}
                     </div>
-                </div>
-            `;
+                    </div>
+                    `;
             };
 
             const renderFeatureSection = (data) => {
@@ -1687,16 +1687,17 @@
                             <p class="hero-subheading">Discover, customize, and own the items that truly define your style. A seamless, high-touch experience designed for the modern connoisseur.</p>
                             <button class="hero-cta-button" style="background-color: ${ACCENT_COLOR};">
                                 Explore All Features <i data-lucide="arrow-right" size="18" class="icon-inline"></i>
-                            </button>
+                                </button>
                         </div>The Future of Curated Commerce.
                         <div class="hero-mockup-container">
                             ${renderMobileMockup(IMAGES.heroMockup, 'SEKO App Hero')}
                         </div>
                     </div>
                 </div>
+                            ${Problem()}
+
                 ${renderAestheticCardGrid()}
                 ${renderDesignSystemShowcase()}
-                ${Problem()}
                 ${renderMockupShowcaseSection()}
                 <div id="features" class="features-section">
                     ${featuresData.map(renderFeatureSection).join('')}
