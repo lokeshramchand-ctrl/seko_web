@@ -1,6 +1,6 @@
 
 
-![Profile Picture](/banner.png)
+![Profile Picture](banner.png)
 
 # The Ritual
 
