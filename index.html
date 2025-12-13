@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ritual</title>
+    <link rel="icon" id="dynamicFavicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2215%22 fill=%22%234a4a4a%22/></svg>">
+    <style>
+        :root {
+            --bg: #030303; /* Deeper black */
+            --fg: #E6E5E1;
+            --dim: #4a4a4a;
+            --accent: #D4D4D4;
+            --font-serif: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", serif;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+            --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: var(--font-serif);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+
+        /* --- CINEMATIC BACKGROUND --- */
+        .cinematic-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+        }
+
+        .orb-1 {
+            width: 90vw;
+            height: 90vw;
+            background: radial-gradient(circle, rgba(40, 30, 25, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -30%;
+            left: -20%;
+            animation: drift 60s ease-in-out infinite alternate;
+        }
+
+        .orb-2 {
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(20, 30, 45, 0.12) 0%, rgba(0,0,0,0) 70%);
+            bottom: -20%;
+            right: -10%;
+            animation: drift 50s ease-in-out infinite alternate-reverse;
+        }
+
+        .orb-3 {
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(60, 60, 65, 0.05) 0%, rgba(0,0,0,0) 70%);
+            top: 40%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            animation: breathe 20s ease-in-out infinite alternate;
+        }
+
+        .vignette {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, #000000 110%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(5%, 8%); }
+        }
+
+        @keyframes breathe {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+        }
+
+        /* --- STAGE --- */
+        .stage {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4.5rem;
+        }
+
+        /* Timer Section */
+        .timer-header {
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1.5s var(--ease-cinematic) 0.5s forwards;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-composite {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--dim);
+            margin-bottom: 0.8rem;
+            transition: color 0.8s ease;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Input specific styling to match text exactly */
+        .timer-input {
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            letter-spacing: inherit;
+            width: 2.5em; /* Fits 2 digits + spacing */
+            text-align: right;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            caret-color: var(--fg);
+        }
+
+        .timer-input::selection {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--fg);
+        }
+
+        .timer-input:focus {
+            color: var(--fg);
+            cursor: text;
+        }
+
+        .timer-input:disabled {
+            cursor: default;
+        }
+
+        /* When focusing, we might want a subtle hint */
+        .timer-composite:focus-within .timer-input {
+            color: var(--fg);
+        }
+
+        .timer-line-container {
+            width: 1px;
+            height: 50px;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: height 0.8s var(--ease-cinematic);
+        }
+
+        .timer-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--fg);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: height 1s linear;
+        }
+
+        /* Ritual List */
+        .ritual-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            min-height: 240px;
+        }
+
+        .ritual-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1.2s var(--ease-cinematic) forwards;
+            transition: all 0.8s var(--ease-cinematic);
+        }
+
+        .ritual-item:nth-child(1) { animation-delay: 0.2s; }
+        .ritual-item:nth-child(2) { animation-delay: 0.3s; }
+        .ritual-item:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Banishing Animation (Delete) */
+        .ritual-item.banished {
+            opacity: 0;
+            transform: scale(0.95);
+            filter: blur(10px);
+        }
+
+        .input-line {
+            background: transparent;
+            border: none;
+            color: var(--fg);
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid transparent;
+            transition: all 0.5s var(--ease-out);
+            padding-bottom: 0.5rem;
+            cursor: text;
+        }
+
+        .input-line::placeholder {
+            color: #2a2a2a;
+            font-style: italic;
+            transition: color 0.5s ease;
+        }
+
+        .input-line:focus {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-line:focus::placeholder {
+            color: transparent;
+        }
+
+        /* Completed State */
+        .ritual-item.completed .input-line {
+            color: var(--dim);
+            text-decoration: line-through;
+            text-decoration-color: var(--dim);
+            text-decoration-thickness: 1px;
+            opacity: 0.6;
+        }
+
+        /* Interaction: Release (Delete) */
+        .action-area {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s var(--ease-out);
+            pointer-events: none; /* Initially disabled */
+        }
+
+        .ritual-item:hover .action-area {
+            opacity: 1;
+            transform: translateY(-50%) translateX(-10px);
+            pointer-events: auto;
+        }
+
+        .release-btn {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--dim);
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .release-btn:hover {
+            color: #bd4b4b; /* Subtle muted red */
+            letter-spacing: 0.2em;
+        }
+
+        .release-btn::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 0;
+            background: var(--dim);
+            transition: height 0.3s ease;
+        }
+
+        .release-btn:hover::before {
+            height: 12px;
+            background: #bd4b4b;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            opacity: 0;
+            animation: fadeUp 1s var(--ease-out) 0.8s forwards;
+            margin-top: 2rem;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--dim);
+            cursor: pointer;
+            position: relative;
+            padding: 1rem;
+            transition: color 0.4s ease;
+        }
+
+        .control-btn::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 1px;
+            background: var(--fg);
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.4s var(--ease-cinematic);
+            opacity: 0.5;
+        }
+
+        .control-btn:hover {
+            color: var(--fg);
+        }
+
+        .control-btn:hover::after {
+            width: 40%;
+        }
+
+        /* Focus Mode States */
+        .state-focus .timer-composite {
+            color: var(--fg);
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        
+        .state-focus .timer-line-container {
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .state-focus .ritual-list {
+            opacity: 0.15;
+            pointer-events: none;
+            filter: blur(4px);
+            transform: scale(0.98);
+            transition: all 1.2s var(--ease-cinematic);
+        }
+
+        .message-layer {
+            position: absolute;
+            bottom: 8vh;
+            width: 100%;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--dim);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+            mix-blend-mode: screen;
+        }
+
+        .visible { opacity: 0.8; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .input-line { font-size: 1.6rem; }
+            .stage { padding: 1.5rem; gap: 3rem; }
+            .orb-1, .orb-2 { width: 120vw; height: 120vw; }
+            .action-area { right: 0; position: relative; width: 100%; height: auto; transform: none; opacity: 1; justify-content: center; margin-top: -10px; margin-bottom: 20px;}
+            .ritual-item:hover .action-area { transform: none; }
+            .ritual-item { flex-direction: column; }
+            .release-btn { font-size: 0.6rem; opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cinematic-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="vignette"></div>
+    </div>
+
+    <main class="stage">
+        <!-- Timer Header -->
+        <header class="timer-header">
+            <div class="timer-composite">
+                <input type="text" id="minInput" class="timer-input" maxlength="3" value="25" autocomplete="off">
+                <span class="sep">:</span>
+                <span id="secDisplay">00</span>
+            </div>
+            <div class="timer-line-container">
+                <div class="timer-progress" id="timerProgress"></div>
+            </div>
+        </header>
+
+        <!-- The Trinity List -->
+        <div class="ritual-list" id="ritualList">
+            <!-- Items injected by JS -->
+        </div>
+
+        <!-- Minimal Controls -->
+        <footer class="controls">
+            <button class="control-btn" id="toggleFocus">Begin Ritual</button>
+            <button class="control-btn" id="resetRitual">Reset</button>
+        </footer>
+    </main>
+
+    <div class="message-layer" id="messageLayer">
+        Essentialism is the discipline of less.
+    </div>
+
+    <script>
+        // --- CONFIG & STATE ---
+        const MAX_ITEMS = 3;
+        
+        // Load custom duration or default to 25
+        const savedDuration = localStorage.getItem('ritual_duration');
+        const INITIAL_MINUTES = savedDuration ? parseInt(savedDuration) : 25;
+        
+        let state = {
+            tasks: JSON.parse(localStorage.getItem('ritual_tasks')) || [],
+            duration: INITIAL_MINUTES, // In Minutes
+            timeLeft: INITIAL_MINUTES * 60, // In Seconds
+            isActive: false,
+            timerId: null
+        };
+
+        const messages = [
+            "Focus on the essential.",
+            "Breathe.",
+            "One step at a time.",
+            "The noise is optional.",
+            "Completion is a practice.",
+            "Stillness speaks.",
+            "Less but better."
+        ];
+
+        // --- DOM ---
+        const ui = {
+            list: document.getElementById('ritualList'),
+            minInput: document.getElementById('minInput'),
+            secDisplay: document.getElementById('secDisplay'),
+            progress: document.getElementById('timerProgress'),
+            toggleBtn: document.getElementById('toggleFocus'),
+            resetBtn: document.getElementById('resetRitual'),
+            body: document.body,
+            message: document.getElementById('messageLayer'),
+            favicon: document.getElementById('dynamicFavicon')
+        };
+
+        // --- FAVICON SYSTEM ---
+        const favCanvas = document.createElement('canvas');
+        favCanvas.width = 32;
+        favCanvas.height = 32;
+        const favCtx = favCanvas.getContext('2d');
+
+        function updateFavicon(mode, ratio = 1) {
+            favCtx.clearRect(0, 0, 32, 32);
+            const cx = 16;
+            const cy = 16;
+            const r = 10;
+
+            if (mode === 'running') {
+                // Background Track (Subtle)
+                favCtx.beginPath();
+                favCtx.arc(cx, cy, r, 0, 2 * Math.PI);
+                favCtx.strokeStyle = 'rgba(74, 74, 74, 0.4)'; // Dim track
+                favCtx.lineWidth = 3;
+                favCtx.stroke();
+
+                // Progress Arc (Light)
+                // Draw arc for remaining time
+                const start = -Math.PI / 2;
+                const end = start + (2 * Math.PI * ratio);
+                
+                favCtx.beginPath();
+                favCtx.arc(cx, cy, r, start, end);
+                favCtx.strokeStyle = '#E6E5E1'; // Active Color
+                favCtx.lineWidth = 3;
+                favCtx.stroke();
+            } else {
+                // Idle Dot
+                favCtx.beginPath();
+                favCtx.arc(cx, cy, 4, 0, 2 * Math.PI);
+                favCtx.fillStyle = '#4a4a4a'; // Dim
+                favCtx.fill();
+            }
+
+            ui.favicon.href = favCanvas.toDataURL('image/png');
+        }
+
+        // --- INITIALIZATION ---
+        function init() {
+            render();
+            updateTimeDisplay();
+            setupTimerInput();
+            updateFavicon('idle');
+            
+            // Initial Animation check
+            if(state.tasks.length === 0) {
+                setTimeout(() => showMessage("Define your trinity."), 1000);
+            }
+        }
+
+        // --- RENDER ---
+        function render() {
+            ui.list.innerHTML = '';
+            
+            // Render existing tasks
+            state.tasks.forEach((task, index) => {
+                const item = createItemDOM(task, index);
+                ui.list.appendChild(item);
+            });
+
+            // Render "Add" slot if under limit
+            if (state.tasks.length < MAX_ITEMS) {
+                const emptySlot = createEmptySlotDOM();
+                ui.list.appendChild(emptySlot);
+            }
+        }
+
+        function createItemDOM(task, index) {
+            const div = document.createElement('div');
+            div.className = `ritual-item ${task.completed ? 'completed' : ''}`;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'input-line';
+            input.value = task.text;
+            input.readOnly = true;
+            
+            // Interaction: Toggle Complete
+            input.addEventListener('click', () => toggleComplete(index));
+            
+            // Interaction: Release (Delete)
+            const actionArea = document.createElement('div');
+            actionArea.className = 'action-area';
+            
+            const releaseBtn = document.createElement('span');
+            releaseBtn.className = 'release-btn';
+            releaseBtn.innerText = 'Release';
+            releaseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                triggerBanishment(index, div);
+            });
+
+            actionArea.appendChild(releaseBtn);
+            div.appendChild(input);
+            div.appendChild(actionArea);
+            
+            return div;
+        }
+
+        function createEmptySlotDOM() {
+            const div = document.createElement('div');
+            div.className = 'ritual-item';
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'input-line';
+            input.placeholder = getPlaceholder();
+            
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && input.value.trim()) {
+                    addTask(input.value.trim());
+                }
+            });
+            
+            div.appendChild(input);
+            return div;
+        }
+
+        function getPlaceholder() {
+            const count = state.tasks.length;
+            if (count === 0) return "First Essential Task";
+            if (count === 1) return "Second Essential Task";
+            return "Final Essential Task";
+        }
+
+        // --- ACTIONS ---
+        function addTask(text) {
+            if (state.tasks.length >= MAX_ITEMS) return;
+            state.tasks.push({ text, completed: false });
+            save();
+            render();
+            cycleMessage();
+        }
+
+        function toggleComplete(index) {
+            state.tasks[index].completed = !state.tasks[index].completed;
+            save();
+            render();
+            
+            if (state.tasks.length > 0 && state.tasks.every(t => t.completed)) {
+                showMessage("The Ritual is complete.");
+            }
+        }
+
+        // Cinematic Delete Animation
+        function triggerBanishment(index, element) {
+            // Visual Animation first
+            element.classList.add('banished');
+            
+            // Logic after animation
+            setTimeout(() => {
+                deleteTask(index);
+            }, 800); // Matches CSS transition
+        }
+
+        function deleteTask(index) {
+            state.tasks.splice(index, 1);
+            save();
+            render();
+        }
+
+        function save() {
+            localStorage.setItem('ritual_tasks', JSON.stringify(state.tasks));
+        }
+
+        // --- TIMER EDIT LOGIC ---
+        function setupTimerInput() {
+            // Only allow numbers
+            ui.minInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    ui.minInput.blur();
+                    return;
+                }
+                // Allow navigation keys
+                if (['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) return;
+                // Block non-numbers
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
+            ui.minInput.addEventListener('focus', () => {
+                if (state.isActive) {
+                    ui.minInput.blur(); // Prevent edit while running
+                    return;
+                }
+                ui.minInput.select(); // Select all for easy replacement
+            });
+
+            ui.minInput.addEventListener('blur', () => {
+                commitDurationChange();
+            });
+        }
+
+        function commitDurationChange() {
+            let val = parseInt(ui.minInput.value);
+            
+            // Clamp and Default
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 120) val = 120;
+
+            // Update State
+            state.duration = val;
+            state.timeLeft = val * 60;
+            
+            // Persist
+            localStorage.setItem('ritual_duration', state.duration);
+            
+            // Update UI
+            updateTimeDisplay();
+        }
+
+        // --- TIMER LOGIC ---
+        function toggleTimer() {
+            if (state.isActive) {
+                pause();
+            } else {
+                start();
+            }
+        }
+
+        function start() {
+            state.isActive = true;
+            ui.minInput.disabled = true; // Disable input while running
+            ui.body.classList.add('state-focus');
+            ui.toggleBtn.innerText = "Pause";
+            ui.message.classList.remove('visible'); 
+            
+            state.timerId = setInterval(() => {
+                if (state.timeLeft > 0) {
+                    state.timeLeft--;
+                    updateTimeDisplay();
+                } else {
+                    finish();
+                }
+            }, 1000);
+        }
+
+        function pause() {
+            state.isActive = false;
+            ui.minInput.disabled = false; // Re-enable input
+            ui.body.classList.remove('state-focus');
+            ui.toggleBtn.innerText = "Resume";
+            clearInterval(state.timerId);
+            document.title = "The Ritual"; // Reset title
+            updateFavicon('idle');
+        }
+
+        function reset() {
+            pause();
+            state.timeLeft = state.duration * 60; // Reset to custom duration
+            ui.toggleBtn.innerText = "Begin Ritual";
+            updateTimeDisplay();
+            updateFavicon('idle');
+        }
+
+        function finish() {
+            pause();
+            ui.toggleBtn.innerText = "Session Complete";
+            showMessage("Rest your mind.");
+            updateFavicon('idle');
+        }
+
+        function updateTimeDisplay() {
+            const m = Math.floor(state.timeLeft / 60);
+            const s = state.timeLeft % 60;
+            
+            const mStr = m.toString().padStart(2, '0');
+            const sStr = s.toString().padStart(2, '0');
+
+            // Update inputs without disrupting focus if user is typing
+            if (document.activeElement !== ui.minInput) {
+                ui.minInput.value = mStr;
+            }
+            
+            ui.secDisplay.innerText = sStr;
+            
+            const totalSeconds = state.duration * 60;
+            const pct = 100 - ((state.timeLeft / totalSeconds) * 100);
+            ui.progress.style.height = `${pct}%`;
+
+            // Browser Tab Title & Favicon
+            if (state.isActive) {
+                document.title = `${mStr}:${sStr} — Focus`;
+                
+                // Update favicon infrequently (every 15s) to be calm
+                if (state.timeLeft % 15 === 0 || state.timeLeft === totalSeconds) {
+                    const ratio = state.timeLeft / totalSeconds;
+                    updateFavicon('running', ratio);
+                }
+            }
+        }
+
+        // --- UTILS ---
+        function showMessage(text) {
+            ui.message.textContent = text;
+            ui.message.classList.add('visible');
+            setTimeout(() => {
+                ui.message.classList.remove('visible');
+            }, 5000);
+        }
+
+        function cycleMessage() {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            showMessage(msg);
+        }
+
+        // --- LISTENERS ---
+        ui.toggleBtn.addEventListener('click', toggleTimer);
+        ui.resetBtn.addEventListener('click', reset);
+
+        // Run
+        init();
+
+    </script>
+</body>
+</html>
