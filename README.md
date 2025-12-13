@@ -1,3 +1,7 @@
+
+
+![Profile Picture](/banner.png)
+
 # The Ritual
 
 A quiet, intentional space for focused work.
