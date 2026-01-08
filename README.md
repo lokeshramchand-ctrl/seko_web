@@ -52,6 +52,13 @@ Everything exists to reduce friction, not add it.
 
 ---
 
+## Image 
+<p align="center">
+
+ <img src="./homepage.png" width="600" /> 
+ 
+</p>
+
 ## Built With
 
 - HTML
